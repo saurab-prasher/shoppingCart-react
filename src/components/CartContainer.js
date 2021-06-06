@@ -3,34 +3,16 @@ import { useGlobalContext } from "../context";
 import CartItem from "./CartItem";
 
 const CartContainer = () => {
-  const {
-    state: { totalAmount, list, loading },
-    handleClearCart,
-    calculateTotalAmount,
-    handleLoading,
-  } = useGlobalContext();
+  const { totalAmount, cart, handleClearCart, handleLoading } =
+    useGlobalContext();
 
   useEffect(() => {
     handleLoading();
-  }, [totalAmount]);
+  }, []);
 
-  if (loading) {
-    return (
-      <h1
-        style={{
-          fontSize: "4rem",
-          fontWeight: 500,
-          textAlign: "center",
-          marginTop: "5rem",
-        }}
-      >
-        Loading...
-      </h1>
-    );
-  }
   return (
     <>
-      {list.length <= 0 ? (
+      {cart.length === 0 ? (
         <h1
           style={{
             textAlign: "center",

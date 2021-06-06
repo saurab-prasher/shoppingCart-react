@@ -3,11 +3,7 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { useGlobalContext } from "../context";
 
 const Header = () => {
-  const {
-    state: { totalItems },
-    calculateTotalItem,
-    calculateTotalAmount,
-  } = useGlobalContext();
+  const { totalItems } = useGlobalContext();
 
   return (
     <header className="header">

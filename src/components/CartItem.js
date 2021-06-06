@@ -3,16 +3,12 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useGlobalContext } from "../context";
 
 const CartItem = () => {
-  const {
-    state: { list },
-    handleIncrement,
-    handleDecrement,
-    handleRemoveItem,
-  } = useGlobalContext();
+  const { cart, handleIncrement, handleDecrement, handleRemoveItem } =
+    useGlobalContext();
 
   return (
     <div className="div">
-      {list.map((item) => {
+      {cart.map((item) => {
         const { id, title, price, img, amount } = item;
 
         return (
@@ -25,7 +21,10 @@ const CartItem = () => {
               <div className="text-box">
                 <h3>{title}</h3>
                 <p className="price">${price}</p>
-                <button onClick={handleRemoveItem} className="btn-remove">
+                <button
+                  onClick={() => handleRemoveItem(id)}
+                  className="btn-remove"
+                >
                   remove
                 </button>
               </div>
@@ -37,7 +36,7 @@ const CartItem = () => {
               />
               {amount}
               <IoIosArrowDown
-                onClick={(id) => handleDecrement(id)}
+                onClick={() => handleDecrement(id)}
                 className="arrow"
               />
             </div>

@@ -1,6 +1,6 @@
 export const reducer = (state, action) => {
   if (action.type === "CLEAR_ITEMS") {
-    return { ...state, list: [] };
+    return { ...state, cart: [] };
   }
 
   if (action.type === "CALCULATE_TOTAL_AMOUNT") {
@@ -18,17 +18,28 @@ export const reducer = (state, action) => {
     return { ...state, loading: false };
   }
 
-  if (action.type === "INCREASE_ITEM") {
+  if (action.type === "REMOVE_ITEM") {
     const id = action.payload;
+    const newCart = state.cart.filter((item) => item.id !== id);
+    return { ...state, cart: newCart };
+  }
 
-    // const item = state.list.find((item) => item.id === id);
-    // const foundIndex = state.list.findIndex((x) => x.id === id);
-
-    // state.list[foundIndex] = item;
-    // const newList = state.list;
-
-    // console.log(newList);
-
-    return { ...state };
+  if (action.type === "INCREASE_ITEM") {
+    const tempCart = state.cart.map((item) => {
+      if (item.id === action.payload) {
+        return { ...item, amount: item.amount + 1 };
+      }
+      return item;
+    });
+    return { ...state, cart: tempCart };
+  }
+  if (action.type === "DECREASE_ITEM") {
+    const tempCart = state.cart.map((item) => {
+      if (item.id === action.payload && item.amount > 0) {
+        return { ...item, amount: item.amount - 1 };
+      }
+      return item;
+    });
+    return { ...state, cart: tempCart };
   }
 };

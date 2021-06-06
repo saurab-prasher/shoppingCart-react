@@ -5,28 +5,27 @@ import { reducer } from "./reducer";
 const AppContext = React.createContext();
 
 const initialState = {
-  totalItems: 1,
+  totalItems: 0,
   totalAmount: 99,
-  list: data,
-  loading: true,
+  cart: data,
+  loading: false,
 };
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const calculateTotalAmount = () => {
-    const total = state.list
+    const total = state.cart
       .map((item) => item.price * item.amount)
       .reduce((acc, current) => {
         return acc + current;
       }, 0);
 
-    console.log(total);
     dispatch({ type: "CALCULATE_TOTAL_AMOUNT", payload: total });
   };
 
   const calculateTotalItem = () => {
-    const total = state.list
+    const total = state.cart
       .map((item) => item.amount)
       .reduce((acc, current) => {
         return acc + current;
@@ -39,14 +38,15 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: "INCREASE_ITEM", payload: id });
   };
   const handleDecrement = (id) => {
-    console.log("Item increased");
+    dispatch({ type: "DECREASE_ITEM", payload: id });
   };
 
   const handleClearCart = () => {
     dispatch({ type: "CLEAR_ITEMS" });
   };
 
-  const handleRemoveItem = () => {
+  const handleRemoveItem = (id) => {
+    dispatch({ type: "REMOVE_ITEM", payload: id });
     console.log("remove item");
   };
 
@@ -57,7 +57,7 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        state,
+        ...state,
         handleIncrement,
         handleDecrement,
         handleClearCart,
