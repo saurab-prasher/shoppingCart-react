@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useGlobalContext } from "../context";
 import CartItem from "./CartItem";
 
 const CartContainer = () => {
-  const { totalAmount, cart, handleClearCart, handleLoading } =
-    useGlobalContext();
-
-  useEffect(() => {
-    handleLoading();
-  }, []);
+  const { totalAmount, cart, handleClearCart } = useGlobalContext();
 
   return (
     <>

@@ -3,15 +3,23 @@ export const reducer = (state, action) => {
     return { ...state, cart: [] };
   }
 
-  if (action.type === "CALCULATE_TOTAL_AMOUNT") {
-    const total = action.payload;
-    return { ...state, totalAmount: total };
-  }
+  if (action.type === "GET_TOTALS") {
+    const { item, amount } = state.cart.reduce(
+      (cartTotal, cartItem) => {
+        const { price, amount } = cartItem;
+        cartTotal.item += amount;
+        cartTotal.amount += amount * price;
 
-  if (action.type === "CALCULATE_TOTAL_ITEM") {
-    const total = action.payload;
+        console.log(cartTotal);
+        return cartTotal;
+      },
+      {
+        amount: 0,
+        item: 0,
+      }
+    );
 
-    return { ...state, totalItems: total };
+    return { ...state, totalItem: item, totalAmount: amount };
   }
 
   if (action.type === "SET_LOADING") {
@@ -34,12 +42,14 @@ export const reducer = (state, action) => {
     return { ...state, cart: tempCart };
   }
   if (action.type === "DECREASE_ITEM") {
-    const tempCart = state.cart.map((item) => {
-      if (item.id === action.payload && item.amount > 0) {
-        return { ...item, amount: item.amount - 1 };
-      }
-      return item;
-    });
+    const tempCart = state.cart
+      .map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, amount: item.amount - 1 };
+        }
+        return item;
+      })
+      .filter((item) => item.amount !== 0);
     return { ...state, cart: tempCart };
   }
 };

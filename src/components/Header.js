@@ -3,7 +3,7 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { useGlobalContext } from "../context";
 
 const Header = () => {
-  const { totalItems } = useGlobalContext();
+  const { totalItem } = useGlobalContext();
 
   return (
     <header className="header">
@@ -11,7 +11,7 @@ const Header = () => {
       <div className="cart-logo">
         <FaCartArrowDown />
 
-        <div className="cart-logo-item">{totalItems}</div>
+        <div className="cart-logo-item">{totalItem}</div>
       </div>
     </header>
   );

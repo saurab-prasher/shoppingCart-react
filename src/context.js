@@ -1,11 +1,11 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import data from "./data";
 import { reducer } from "./reducer";
 
 const AppContext = React.createContext();
 
 const initialState = {
-  totalItems: 0,
+  totalItem: 1,
   totalAmount: 99,
   cart: data,
   loading: false,
@@ -14,25 +14,9 @@ const initialState = {
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const calculateTotalAmount = () => {
-    const total = state.cart
-      .map((item) => item.price * item.amount)
-      .reduce((acc, current) => {
-        return acc + current;
-      }, 0);
-
-    dispatch({ type: "CALCULATE_TOTAL_AMOUNT", payload: total });
-  };
-
-  const calculateTotalItem = () => {
-    const total = state.cart
-      .map((item) => item.amount)
-      .reduce((acc, current) => {
-        return acc + current;
-      }, 0);
-
-    dispatch({ type: "CALCULATE_TOTAL_ITEM", payload: total });
-  };
+  useEffect(() => {
+    dispatch({ type: "GET_TOTALS" });
+  }, [state.cart]);
 
   const handleIncrement = (id) => {
     dispatch({ type: "INCREASE_ITEM", payload: id });
@@ -62,9 +46,7 @@ export const AppProvider = ({ children }) => {
         handleDecrement,
         handleClearCart,
         handleRemoveItem,
-        calculateTotalAmount,
         handleLoading,
-        calculateTotalItem,
       }}
     >
       {children}
