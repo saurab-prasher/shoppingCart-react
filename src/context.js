@@ -11,12 +11,25 @@ const initialState = {
   loading: false,
 };
 
+const url = "https://course-api.com/react-useReducer-cart-project";
+
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     dispatch({ type: "GET_TOTALS" });
   }, [state.cart]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    dispatch({ type: "LOADING" });
+    const response = await fetch(url);
+    const cart = await response.json();
+    dispatch({ type: "DISPLAY_ITEMS", payload: cart });
+  };
 
   const handleIncrement = (id) => {
     dispatch({ type: "INCREASE_ITEM", payload: id });

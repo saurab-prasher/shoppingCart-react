@@ -2,15 +2,20 @@ export const reducer = (state, action) => {
   if (action.type === "CLEAR_ITEMS") {
     return { ...state, cart: [] };
   }
+  if (action.type === "LOADING") {
+    return { ...state, loading: true };
+  }
+
+  if (action.type === "DISPLAY_ITEMS") {
+    return { ...state, loading: false, card: action.payload };
+  }
 
   if (action.type === "GET_TOTALS") {
-    const { item, amount } = state.cart.reduce(
+    let { item, amount } = state.cart.reduce(
       (cartTotal, cartItem) => {
         const { price, amount } = cartItem;
         cartTotal.item += amount;
         cartTotal.amount += amount * price;
-
-        console.log(cartTotal);
         return cartTotal;
       },
       {
@@ -19,11 +24,9 @@ export const reducer = (state, action) => {
       }
     );
 
-    return { ...state, totalItem: item, totalAmount: amount };
-  }
+    amount = parseFloat(amount.toFixed(2));
 
-  if (action.type === "SET_LOADING") {
-    return { ...state, loading: false };
+    return { ...state, totalItem: item, totalAmount: amount };
   }
 
   if (action.type === "REMOVE_ITEM") {

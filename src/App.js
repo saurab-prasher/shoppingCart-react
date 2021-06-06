@@ -3,13 +3,7 @@ import Header from "./components/Header";
 import CartContainer from "./components/CartContainer";
 import { useGlobalContext } from "./context";
 const App = () => {
-  const {
-    cart,
-    calculateTotalItem,
-    calculateTotalAmount,
-    handleLoading,
-    loading,
-  } = useGlobalContext();
+  const { loading } = useGlobalContext();
 
   if (loading) {
     return (
