@@ -7,7 +7,7 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === "DISPLAY_ITEMS") {
-    return { ...state, loading: false, card: action.payload };
+    return { ...state, loading: false, cart: action.payload };
   }
 
   if (action.type === "GET_TOTALS") {
@@ -23,9 +23,7 @@ export const reducer = (state, action) => {
         item: 0,
       }
     );
-
     amount = parseFloat(amount.toFixed(2));
-
     return { ...state, totalItem: item, totalAmount: amount };
   }
 
@@ -35,24 +33,20 @@ export const reducer = (state, action) => {
     return { ...state, cart: newCart };
   }
 
-  if (action.type === "INCREASE_ITEM") {
-    const tempCart = state.cart.map((item) => {
-      if (item.id === action.payload) {
-        return { ...item, amount: item.amount + 1 };
-      }
-      return item;
-    });
-    return { ...state, cart: tempCart };
-  }
-  if (action.type === "DECREASE_ITEM") {
-    const tempCart = state.cart
-      .map((item) => {
-        if (item.id === action.payload) {
-          return { ...item, amount: item.amount - 1 };
+  if (action.type === "TOGGLE_ITEM") {
+    let tempCart = state.cart
+      .map((cartItem) => {
+        if (cartItem.id === action.payload.id) {
+          if (action.payload.type === "INCREASE_ITEM") {
+            return { ...cartItem, amount: cartItem.amount + 1 };
+          }
+          if (action.payload.type === "DECREASE_ITEM") {
+            return { ...cartItem, amount: cartItem.amount - 1 };
+          }
         }
-        return item;
+        return cartItem;
       })
-      .filter((item) => item.amount !== 0);
+      .filter((cartItem) => cartItem.amount !== 0);
     return { ...state, cart: tempCart };
   }
 };

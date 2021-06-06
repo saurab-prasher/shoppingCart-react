@@ -3,8 +3,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useGlobalContext } from "../context";
 
 const CartItem = () => {
-  const { cart, handleIncrement, handleDecrement, handleRemoveItem } =
-    useGlobalContext();
+  const { cart, handleRemoveItem, toggleItem } = useGlobalContext();
 
   return (
     <div className="div">
@@ -31,12 +30,12 @@ const CartItem = () => {
             </article>
             <div className="increment">
               <IoIosArrowUp
-                onClick={() => handleIncrement(id)}
+                onClick={() => toggleItem(id, "INCREASE_ITEM")}
                 className="arrow"
               />
               {amount}
               <IoIosArrowDown
-                onClick={() => handleDecrement(id)}
+                onClick={() => toggleItem(id, "DECREASE_ITEM")}
                 className="arrow"
               />
             </div>

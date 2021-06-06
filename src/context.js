@@ -1,5 +1,4 @@
 import React, { useContext, useReducer, useEffect } from "react";
-import data from "./data";
 import { reducer } from "./reducer";
 
 const AppContext = React.createContext();
@@ -7,7 +6,7 @@ const AppContext = React.createContext();
 const initialState = {
   totalItem: 1,
   totalAmount: 99,
-  cart: data,
+  cart: [],
   loading: false,
 };
 
@@ -31,11 +30,8 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: "DISPLAY_ITEMS", payload: cart });
   };
 
-  const handleIncrement = (id) => {
-    dispatch({ type: "INCREASE_ITEM", payload: id });
-  };
-  const handleDecrement = (id) => {
-    dispatch({ type: "DECREASE_ITEM", payload: id });
+  const toggleItem = (id, type) => {
+    dispatch({ type: "TOGGLE_ITEM", payload: { id, type } });
   };
 
   const handleClearCart = () => {
@@ -44,22 +40,15 @@ export const AppProvider = ({ children }) => {
 
   const handleRemoveItem = (id) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
-    console.log("remove item");
-  };
-
-  const handleLoading = () => {
-    dispatch({ type: "SET_LOADING" });
   };
 
   return (
     <AppContext.Provider
       value={{
         ...state,
-        handleIncrement,
-        handleDecrement,
         handleClearCart,
         handleRemoveItem,
-        handleLoading,
+        toggleItem,
       }}
     >
       {children}

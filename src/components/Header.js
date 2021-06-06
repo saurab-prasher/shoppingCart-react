@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <h1 className="logo">UseReducer</h1>
+      <h1 className="logo">UseReducer(practice)</h1>
       <div className="cart-logo">
         <FaCartArrowDown />
 
